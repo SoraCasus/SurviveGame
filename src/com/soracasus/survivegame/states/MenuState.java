@@ -1,12 +1,12 @@
 package com.soracasus.survivegame.states;
 
-import java.awt.Graphics;
-
 import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.gfx.Assets;
-import com.soracasus.survivegame.ui.ClickListener;
-import com.soracasus.survivegame.ui.UIImageButton;
 import com.soracasus.survivegame.ui.UIManager;
+import com.soracasus.survivegame.ui.UITextButton;
+
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class MenuState extends State {
 
@@ -17,7 +17,7 @@ public class MenuState extends State {
 		uiManager = new UIManager(handler);
 		handler.getMouseManager().setUIManager(uiManager);
 
-		uiManager.addObject(new UIImageButton(200, 200, 128, 64, Assets.INSTANCE.getButton("start"), () -> {
+		uiManager.addObject(new UITextButton(handler.getWidth() / 2, handler.getHeight() / 2, 128, 64, Assets.INSTANCE.getTexture("brownButton"), "Start", Color.BLACK, Color.YELLOW, () -> {
 			handler.getMouseManager().setUIManager(null);
 			setState(handler.getGame().gameState);
 		}));
@@ -30,6 +30,7 @@ public class MenuState extends State {
 
 	@Override
 	public void render(Graphics g) {
+		g.drawImage(Assets.INSTANCE.getTexture("mainMenuBG"), 0, 0, handler.getWidth(), handler.getHeight(), null);
 		uiManager.render(g);
 	}
 

@@ -1,16 +1,17 @@
 package com.soracasus.survivegame.inventory;
 
+import com.soracasus.survivegame.Handler;
+import com.soracasus.survivegame.gfx.Assets;
+import com.soracasus.survivegame.gfx.Text;
+import com.soracasus.survivegame.items.Item;
+import com.soracasus.survivegame.menu.Menu;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import com.soracasus.survivegame.Handler;
-import com.soracasus.survivegame.gfx.Assets;
-import com.soracasus.survivegame.gfx.Text;
-import com.soracasus.survivegame.items.Item;
-
-public class Inventory {
+public class Inventory extends Menu {
 
     private Handler handler;
     private boolean active = false;
@@ -31,7 +32,7 @@ public class Inventory {
 
     public Inventory(Handler handler) {
         this.handler = handler;
-        inventoryItems = new ArrayList<Item>();
+        inventoryItems = new ArrayList<>();
     }
 
     public void tick() {
