@@ -1,15 +1,18 @@
 package com.soracasus.survivegame.worlds;
 
-import java.awt.Graphics;
-
+import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.entities.EntityManager;
 import com.soracasus.survivegame.entities.creatures.Player;
 import com.soracasus.survivegame.entities.statics.Rock;
 import com.soracasus.survivegame.entities.statics.Tree;
-import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.items.ItemManager;
+import com.soracasus.survivegame.json.JSONArray;
+import com.soracasus.survivegame.json.JSONObject;
 import com.soracasus.survivegame.tiles.Tile;
+import com.soracasus.survivegame.utils.SCFile;
 import com.soracasus.survivegame.utils.Utils;
+
+import java.awt.Graphics;
 
 public class World {
 
@@ -21,8 +24,8 @@ public class World {
 	private EntityManager entityManager;
 	// Item
 	private ItemManager itemManager;
-	
-	public World(Handler handler, String path){
+
+	public World (Handler handler, SCFile world) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		itemManager = new ItemManager(handler);
@@ -32,8 +35,8 @@ public class World {
 		entityManager.addEntity(new Rock(handler, 350, 300));
 		entityManager.addEntity(new Rock(handler, 400, 345));
 		entityManager.addEntity(new Tree(handler, 625, 325));
-		
-		loadWorld(path);
+
+		loadWorld(world);
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
@@ -64,26 +67,32 @@ public class World {
 	
 	public Tile getTile(int x, int y){
 		if(x < 0 || y < 0 || x >= width || y >= height)
-			return Tile.grassTile;
-		
-		Tile t = Tile.tiles[tiles[x][y]];
+			return Tile.tiles[0];
+
+		Tile t = Tile.tiles[tiles[x][y] - 1];
 		if(t == null)
-			return Tile.dirtTile;
+			return Tile.tiles[0];
 		return t;
 	}
-	
-	private void loadWorld(String path){
-		String file = Utils.loadFileAsString(path);
-		String[] tokens = file.split("\\s+");
-		width = Utils.parseInt(tokens[0]);
-		height = Utils.parseInt(tokens[1]);
-		spawnX = Utils.parseInt(tokens[2]);
-		spawnY = Utils.parseInt(tokens[3]);
-		
+
+	private void loadWorld (SCFile world) {
+
+		JSONObject obj = Utils.loadJSONObject(world);
+		JSONObject properties = obj.getJSONObject("properties");
+		JSONArray layers = obj.getJSONArray("layers");
+		JSONArray data = layers.getJSONObject(0).getJSONArray("data");
+
+		width = obj.getInt("width");
+		height = obj.getInt("height");
+		spawnX = properties.getInt("spawnX") * Tile.TILEWIDTH;
+		spawnY = properties.getInt("spawnY") * Tile.TILEHEIGHT;
+
 		tiles = new int[width][height];
-		for(int y = 0;y < height;y++){
-			for(int x = 0;x < width;x++){
-				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
+
+		int index = 0;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				tiles[x][y] = data.getInt(index++);
 			}
 		}
 	}

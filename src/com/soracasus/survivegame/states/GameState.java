@@ -1,9 +1,10 @@
 package com.soracasus.survivegame.states;
 
-import java.awt.Graphics;
-
-import com.soracasus.survivegame.worlds.World;
 import com.soracasus.survivegame.Handler;
+import com.soracasus.survivegame.utils.SCFile;
+import com.soracasus.survivegame.worlds.World;
+
+import java.awt.Graphics;
 
 public class GameState extends State {
 	
@@ -11,7 +12,7 @@ public class GameState extends State {
 	
 	public GameState(Handler handler){
 		super(handler);
-		world = new World(handler, "res/worlds/world1.txt");
+		world = new World(handler, new SCFile("worlds/world.json"));
 		handler.setWorld(world);
 	}
 	
