@@ -110,8 +110,14 @@ public class Assets {
 		BufferedImage rightHandBox = ImageLoader.loadImage(new SCFile("textures/RightHandBox.png"));
 		textures.put("rightHandBox", rightHandBox);
 
+		BufferedImage rightHandBoxSel = ImageLoader.loadImage(new SCFile("textures/RightHandBoxSel.png"));
+		textures.put("rightHandBoxSel", rightHandBoxSel);
+
 		BufferedImage leftHandBox = ImageLoader.loadImage(new SCFile("textures/LeftHandBox.png"));
 		textures.put("leftHandBox", leftHandBox);
+
+		BufferedImage leftHandBoxSel = ImageLoader.loadImage(new SCFile("textures/LeftHandBoxSel.png"));
+		textures.put("leftHandBoxSel", leftHandBoxSel);
 
 
 		initNullTexture();

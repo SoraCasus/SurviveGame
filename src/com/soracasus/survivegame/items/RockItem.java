@@ -14,25 +14,9 @@ public class RockItem extends Item {
 
 	}
 
-
-	@Override
-	public Item createNew (int count) {
-		RockItem i = new RockItem();
-		i.setPosition(x, y);
-		return i;
-	}
-
 	@Override
 	public Item createNew (int x, int y) {
 		RockItem i = new RockItem();
-		i.setPosition(x, y);
-		return i;
-	}
-
-	@Override
-	public Item createNew (int x, int y, int count) {
-		RockItem i = new RockItem();
-		i.setCount(count);
 		i.setPosition(x, y);
 		return i;
 	}

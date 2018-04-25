@@ -1,32 +1,36 @@
 package com.soracasus.survivegame.states;
 
-import java.awt.Graphics;
-
 import com.soracasus.survivegame.Handler;
+
+import java.awt.Graphics;
 
 
 public abstract class State {
 
 	private static State currentState = null;
-	
-	public static void setState(State state){
-		currentState = state;
-	}
-	
-	public static State getState(){
-		return currentState;
-	}
-	
-	//CLASS
-	
-	protected Handler handler;
-	
-	public State(Handler handler){
+
+	public State (Handler handler) {
 		this.handler = handler;
 	}
-	
-	public abstract void tick();
-	
-	public abstract void render(Graphics g);
-	
+
+	public static State getState () {
+		return currentState;
+	}
+
+	//CLASS
+
+	protected Handler handler;
+
+	public static void setState (State state) {
+		currentState = state;
+	}
+
+	public abstract void tick ();
+
+	public abstract void render (Graphics g);
+
+	public void loadFromFile () {
+
+	}
+
 }

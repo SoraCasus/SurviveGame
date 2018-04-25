@@ -44,26 +44,9 @@ public class WoodItem extends Item {
 	}
 
 	@Override
-	public Item createNew (int count) {
-		WoodItem i = new WoodItem();
-		i.setCount(count);
-		return i;
-	}
-
-	@Override
 	public Item createNew (int x, int y) {
 		WoodItem i = new WoodItem();
 		i.setPosition(x, y);
 		return i;
 	}
-
-	@Override
-	public Item createNew (int x, int y, int count) {
-		WoodItem i = new WoodItem();
-		i.setCount(count);
-		i.setPosition(x, y);
-		return i;
-	}
-
-
 }

@@ -60,7 +60,7 @@ public class Player extends Creature {
 		handler.getGameCamera().centerOnEntity(this);
 		// Action
 		if (inventory.getSelectedSlot().getItem() != null) {
-			if (inventory.getSelectedSlot().getItem().hasAction()) {
+			if (inventory.getSelectedSlot().getItem().hasAction() && !inventory.isActive()) {
 				inventory.getSelectedSlot().getItem().onAction();
 			} else {
 				checkAttacks();

@@ -4,12 +4,16 @@ import com.soracasus.survivegame.display.Display;
 import com.soracasus.survivegame.gfx.GameCamera;
 import com.soracasus.survivegame.input.KeyManager;
 import com.soracasus.survivegame.input.MouseManager;
+import com.soracasus.survivegame.json.JSONObject;
 import com.soracasus.survivegame.states.GameState;
 import com.soracasus.survivegame.states.MenuState;
 import com.soracasus.survivegame.states.State;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Game implements Runnable {
 
@@ -66,6 +70,9 @@ public class Game implements Runnable {
 		
 		if(State.getState() != null)
 			State.getState().tick();
+
+		if (keyManager.keyJustPressed(KeyEvent.VK_P))
+			saveGame();
 	}
 	
 	private void render(){
@@ -121,6 +128,18 @@ public class Game implements Runnable {
 		
 		stop();
 		
+	}
+
+	public void saveGame () {
+		JSONObject save = new JSONObject();
+		handler.getWorld().getEntityManager().getPlayer().getInventory().saveInventory(save);
+		try (FileWriter file = new FileWriter("res/save/save1.json")) {
+			file.write(save.toString());
+			System.out.println("Successfully Copied JSON Object to File...");
+			System.out.println("\nJSON Object: " + save);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public KeyManager getKeyManager(){

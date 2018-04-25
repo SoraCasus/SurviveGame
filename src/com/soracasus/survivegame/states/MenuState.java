@@ -12,7 +12,7 @@ public class MenuState extends State {
 
 	private UIManager uiManager;
 
-	public MenuState(Handler handler) {
+	public MenuState (Handler handler) {
 		super(handler);
 		uiManager = new UIManager(handler);
 		handler.getMouseManager().setUIManager(uiManager);
@@ -21,15 +21,21 @@ public class MenuState extends State {
 			handler.getMouseManager().setUIManager(null);
 			setState(handler.getGame().gameState);
 		}));
+
+		uiManager.addObject(new UITextButton(handler.getWidth() / 2, (handler.getHeight() / 2) + 50, 128, 64, Assets.INSTANCE.getTexture("brownButton"), "Load", Color.BLACK, Color.YELLOW, () -> {
+			handler.getMouseManager().setUIManager(null);
+			handler.getGame().gameState.loadFromFile();
+			setState(handler.getGame().gameState);
+		}));
 	}
 
 	@Override
-	public void tick() {
+	public void tick () {
 		uiManager.tick();
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render (Graphics g) {
 		g.drawImage(Assets.INSTANCE.getTexture("mainMenuBG"), 0, 0, handler.getWidth(), handler.getHeight(), null);
 		uiManager.render(g);
 	}

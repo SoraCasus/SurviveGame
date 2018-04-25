@@ -4,6 +4,8 @@ import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.gfx.Assets;
 import com.soracasus.survivegame.gfx.Text;
 import com.soracasus.survivegame.items.Item;
+import com.soracasus.survivegame.json.JSONArray;
+import com.soracasus.survivegame.json.JSONObject;
 import com.soracasus.survivegame.menu.Menu;
 
 import java.awt.Color;
@@ -58,6 +60,7 @@ public class HandInventory extends Menu {
 	private int selectedItem;
 
 	public HandInventory (Handler handler) {
+		System.out.println("Initialize inventory");
 		this.slots = new InventorySlot[11];
 		for (int i = 0; i < slots.length; i++)
 			slots[i] = new InventorySlot(null, 0);
@@ -114,34 +117,51 @@ public class HandInventory extends Menu {
 
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_F)) {
 			// selected slot is occupied
-			if (slots[selectedItem] != null) {
-				// If hand is holding nothing
-				if (getSelectedSlot().getItem() == null) {
-					getSelectedSlot().setItem(slots[selectedItem].getItem());
-					getSelectedSlot().setCount(slots[selectedItem].getCount());
-					slots[selectedItem].setItem(null);
-					slots[selectedItem].setCount(0);
-				} else {
-					// If hand is holding something
-					Item tmpItem = getSelectedSlot().getItem();
-					int tmpCount = getSelectedSlot().getCount();
 
-					getSelectedSlot().setItem(slots[selectedItem].getItem());
-					getSelectedSlot().setCount(slots[selectedItem].getCount());
+			if (getSelectedSlot().getItem() == null)
+				handIsEmpty();
+			else
+				handIsFull();
+		}
+	}
 
-					slots[selectedItem].setItem(tmpItem);
-					slots[selectedItem].setCount(tmpCount);
-				}
-				// If selected slot is empty
+	private void handIsEmpty () {
+		if (slots[selectedItem].getItem() != null) {
+			// Pick up the item
+			getSelectedSlot().setItem(slots[selectedItem].getItem());
+			getSelectedSlot().setCount(slots[selectedItem].getCount());
+			slots[selectedItem].setItem(null);
+			slots[selectedItem].setCount(0);
+		}
+		// Otherwise nothing happens
+	}
+
+	private void handIsFull () {
+		if (slots[selectedItem].getItem() != null) {
+			// Check if items are equal
+			if (slots[selectedItem].getItem().getId() == getSelectedSlot().getItem().getId()) {
+				System.out.println("Items are equal!");
+				// Merge items in inventory
+				slots[selectedItem].setCount(slots[selectedItem].getCount() + getSelectedSlot().getCount());
+				getSelectedSlot().setItem(null);
+				getSelectedSlot().setCount(0);
 			} else {
-				// If hand is holding Something
-				if (getSelectedSlot().getItem() != null) {
-					slots[selectedItem].setItem(getSelectedSlot().getItem());
-					slots[selectedItem].setCount(getSelectedSlot().getCount());
-					getSelectedSlot().setItem(null);
-					getSelectedSlot().setCount(0);
-				}
+				// Swap items
+				Item tmpItem = getSelectedSlot().getItem();
+				int tmpCount = getSelectedSlot().getCount();
+
+				getSelectedSlot().setItem(slots[selectedItem].getItem());
+				getSelectedSlot().setCount(slots[selectedItem].getCount());
+
+				slots[selectedItem].setItem(tmpItem);
+				slots[selectedItem].setCount(tmpCount);
 			}
+		} else {
+			// Place the item  in inventory
+			slots[selectedItem].setItem(getSelectedSlot().getItem());
+			slots[selectedItem].setCount(getSelectedSlot().getCount());
+			getSelectedSlot().setItem(null);
+			getSelectedSlot().setCount(0);
 		}
 	}
 
@@ -181,25 +201,29 @@ public class HandInventory extends Menu {
 			if (slots[selectedItem].getItem() != null) {
 				Item item = slots[selectedItem].getItem();
 				g.drawImage(item.getTexture(), INV_IMG_X, INV_IMG_Y, INV_IMG_W, INV_IMG_H, null);
-				Text.drawString(g, Integer.toString(item.getCount()), INV_COUNT_X, INV_COUNT_Y, true,
+				Text.drawString(g, Integer.toString(slots[selectedItem].getCount()), INV_COUNT_X, INV_COUNT_Y, true,
 						Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
 			}
 
 			if (rightHand.getItem() != null) {
 				Item item = rightHand.getItem();
 				g.drawImage(item.getTexture(), INV_IMG_X, INV_IMG_Y + 123, INV_IMG_W, INV_IMG_H, null);
-				Text.drawString(g, Integer.toString(item.getCount()), INV_COUNT_X, INV_COUNT_Y + 123, true,
+				Text.drawString(g, Integer.toString(rightHand.getCount()), INV_COUNT_X, INV_COUNT_Y + 123, true,
 						Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
 			}
 
 			if (leftHand.getItem() != null) {
 				Item item = leftHand.getItem();
 				g.drawImage(item.getTexture(), INV_IMG_X, INV_IMG_Y + 123 + 123, INV_IMG_W, INV_IMG_H, null);
-				Text.drawString(g, Integer.toString(item.getCount()), INV_COUNT_X + 3, INV_COUNT_Y + 123 + 123, true,
+				Text.drawString(g, Integer.toString(leftHand.getCount()), INV_COUNT_X + 3, INV_COUNT_Y + 123 + 123, true,
 						Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
 			}
 		} else {
-			g.drawImage(Assets.INSTANCE.getTexture("rightHandBox"), RH_BOX_X, RH_BOX_Y, RH_BOX_W, RH_BOX_H, null);
+			if (selectedHand == HAND_RIGHT)
+				g.drawImage(Assets.INSTANCE.getTexture("rightHandBoxSel"), RH_BOX_X, RH_BOX_Y, RH_BOX_W, RH_BOX_H, null);
+			else
+				g.drawImage(Assets.INSTANCE.getTexture("rightHandBox"), RH_BOX_X, RH_BOX_Y, RH_BOX_W, RH_BOX_H, null);
+
 			if (rightHand.getItem() != null) {
 				g.drawImage(rightHand.getItem().getTexture(), RH_BOX_X + 5, RH_BOX_Y + 5, 32, 32, null);
 				Text.drawString(g, Integer.toString(rightHand.getCount()), RH_BOX_X + 23, RH_BOX_Y + 50, true,
@@ -207,28 +231,100 @@ public class HandInventory extends Menu {
 
 			}
 
-			g.drawImage(Assets.INSTANCE.getTexture("leftHandBox"), LH_BOX_X, LH_BOX_Y, LH_BOX_W, LH_BOX_H, null);
+			if (selectedHand == HAND_LEFT)
+				g.drawImage(Assets.INSTANCE.getTexture("leftHandBoxSel"), LH_BOX_X, LH_BOX_Y, LH_BOX_W, LH_BOX_H, null);
+			else
+				g.drawImage(Assets.INSTANCE.getTexture("leftHandBox"), LH_BOX_X, LH_BOX_Y, LH_BOX_W, LH_BOX_H, null);
+
 			if (leftHand.getItem() != null) {
 				g.drawImage(leftHand.getItem().getTexture(), LH_BOX_X + 5, LH_BOX_Y + 5, 32, 32, null);
 				Text.drawString(g, Integer.toString(leftHand.getCount()), LH_BOX_X + 23, LH_BOX_Y + 50, true,
 						Color.WHITE, Assets.INSTANCE.getFont("slkscr14"));
 			}
-
-			if (selectedHand == HAND_RIGHT) {
-				g.setColor(Color.YELLOW);
-				g.drawRect(RH_BOX_X, RH_BOX_Y, RH_BOX_W, RH_BOX_W);
-			}
 		}
 	}
 
+	public void saveInventory (JSONObject obj) {
+		JSONArray inventory = new JSONArray();
+		for (int i = 0; i < slots.length; i++) {
+			JSONObject slot = new JSONObject();
+			slot.put("index", i);
+			if (slots[i].getItem() != null) {
+				slot.put("id", slots[i].getItem().getId());
+				slot.put("count", slots[i].getCount());
+			} else {
+				slot.put("id", -1);
+				slot.put("count", 0);
+			}
+			inventory.put(slot);
+		}
+
+		JSONObject leftHand = new JSONObject();
+		if (this.leftHand.getItem() == null) {
+			leftHand.put("id", -1);
+			leftHand.put("count", 0);
+		} else {
+			leftHand.put("id", this.leftHand.getItem().getId());
+			leftHand.put("count", this.leftHand.getCount());
+		}
+		obj.put("leftHand", leftHand);
+
+
+		JSONObject rightHand = new JSONObject();
+		if (this.rightHand.getItem() == null) {
+			rightHand.put("id", -1);
+			rightHand.put("count", 0);
+		} else {
+			rightHand.put("id", this.rightHand.getItem().getId());
+			rightHand.put("count", this.rightHand.getCount());
+		}
+		obj.put("rightHand", rightHand);
+
+		obj.put("inventory", inventory);
+	}
+
+	public void loadFromFile (JSONObject obj) {
+		System.out.println("Loading inventory");
+
+		JSONObject left = obj.getJSONObject("leftHand");
+		System.out.println("Left ID: " + left.getInt("id"));
+		if (left.getInt("id") != -1) {
+			this.leftHand.setItem(Item.items[left.getInt("id")]);
+			this.leftHand.setCount(left.getInt("count"));
+		}
+
+		JSONObject right = obj.getJSONObject("rightHand");
+		if (right.getInt("id") != -1) {
+			this.rightHand.setItem(Item.items[right.getInt("id")]);
+			this.rightHand.setCount(right.getInt("count"));
+		}
+
+		JSONArray inv = obj.getJSONArray("inventory");
+		for (int i = 0; i < inv.length(); i++) {
+			JSONObject slot = inv.getJSONObject(i);
+			if (slot.getInt("id") == -1)
+				continue;
+
+			slots[i].setItem(Item.items[slot.getInt("id")]);
+			slots[i].setCount(slot.getInt("count"));
+		}
+	}
+
+	public void setRightHand (InventorySlot rightHand) {
+		this.rightHand = rightHand;
+	}
+
+	public void setLeftHand (InventorySlot leftHand) {
+		this.leftHand = leftHand;
+	}
 
 	public boolean pickUpItem (Item item) {
 		if (getSelectedSlot().getItem() == null) {
 			getSelectedSlot().setItem(item);
-			getSelectedSlot().setCount(item.getCount());
+			getSelectedSlot().setCount(1);
 			return true;
 		} else if (getSelectedSlot().getItem().getId() == item.getId()) {
-			getSelectedSlot().setCount(getSelectedSlot().getCount() + item.getCount());
+			getSelectedSlot().setCount(getSelectedSlot().getCount() + 1);
 
 			return true;
 		}
