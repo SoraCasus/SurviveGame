@@ -13,96 +13,101 @@ import java.util.ArrayList;
 
 public class Inventory extends Menu {
 
-    private Handler handler;
-    private boolean active = false;
-    private ArrayList<Item> inventoryItems;
+	private Handler handler;
+	private ArrayList<Item> inventoryItems;
 
-    private int invX = 64, invY = 48,
-            invWidth = 512, invHeight = 384,
-            invListCenterX = invX + 171,
-            invListCenterY = invY + invHeight / 2 + 5,
-            invListSpacing = 30;
+	private Item heldItem;
 
-    private int invImageX = 452, invImageY = 82,
-            invImageWidth = 64, invImageHeight = 64;
+	private int invX = 64, invY = 48,
+			invWidth = 512, invHeight = 384,
+			invListCenterX = invX + 171,
+			invListCenterY = invY + invHeight / 2 + 5,
+			invListSpacing = 30;
 
-    private int invCountX = 484, invCountY = 172;
+	private int invImageX = 452, invImageY = 82,
+			invImageWidth = 64, invImageHeight = 64;
 
-    private int selectedItem = 0;
+	private int invCountX = 484, invCountY = 172;
 
-    public Inventory(Handler handler) {
-        this.handler = handler;
-        inventoryItems = new ArrayList<>();
-    }
+	private int selectedItem = 0;
 
-    public void tick() {
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_E))
-            active = !active;
-        if (!active)
-            return;
+	public Inventory (Handler handler) {
+		this.handler = handler;
+		inventoryItems = new ArrayList<>();
+		this.heldItem = null;
+	}
 
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_W))
-            selectedItem--;
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_S))
-            selectedItem++;
+	public void tick () {
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_E))
+			active = !active;
+		if (!active)
+			return;
 
-        if (selectedItem < 0)
-            selectedItem = inventoryItems.size() - 1;
-        else if (selectedItem >= inventoryItems.size())
-            selectedItem = 0;
-    }
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_W))
+			selectedItem--;
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_S))
+			selectedItem++;
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_F)) {
+			if (heldItem == null) {
+				heldItem = inventoryItems.get(selectedItem);
+			} else {
 
-    public void render(Graphics g) {
-        if (!active)
-            return;
+			}
+		}
 
-        g.drawImage(Assets.INSTANCE.getTexture("inventoryScreen"), invX, invY, invWidth, invHeight, null);
+		if (selectedItem < 0)
+			selectedItem = inventoryItems.size() - 1;
+		else if (selectedItem >= inventoryItems.size())
+			selectedItem = 0;
+	}
 
-        int len = inventoryItems.size();
-        if (len == 0)
-            return;
+	public void render (Graphics g) {
+		if (!active)
+			return;
 
-        for (int i = -5; i < 6; i++) {
-            if (selectedItem + i < 0 || selectedItem + i >= len)
-                continue;
-            if (i == 0) {
-                Text.drawString(g, "> " + inventoryItems.get(selectedItem + i).getName() + " <", invListCenterX,
-                        invListCenterY + i * invListSpacing, true, Color.YELLOW, Assets.INSTANCE.getFont("slkscr"));
-            } else {
-                Text.drawString(g, inventoryItems.get(selectedItem + i).getName(), invListCenterX,
-                        invListCenterY + i * invListSpacing, true, Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
-            }
-        }
+		g.drawImage(Assets.INSTANCE.getTexture("inventoryScreen"), invX, invY, invWidth, invHeight, null);
 
-        Item item = inventoryItems.get(selectedItem);
-        g.drawImage(item.getTexture(), invImageX, invImageY, invImageWidth, invImageHeight, null);
-        Text.drawString(g, Integer.toString(item.getCount()), invCountX, invCountY, true, Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
-    }
+		int len = inventoryItems.size();
+		if (len == 0)
+			return;
 
-    // Inventory methods
+		for (int i = -5; i < 6; i++) {
+			if (selectedItem + i < 0 || selectedItem + i >= len)
+				continue;
+			if (i == 0) {
+				Text.drawString(g, "> " + inventoryItems.get(selectedItem + i).getName() + " <", invListCenterX,
+						invListCenterY + i * invListSpacing, true, Color.YELLOW, Assets.INSTANCE.getFont("slkscr"));
+			} else {
+				Text.drawString(g, inventoryItems.get(selectedItem + i).getName(), invListCenterX,
+						invListCenterY + i * invListSpacing, true, Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
+			}
+		}
 
-    public void addItem(Item item) {
-        for (Item i : inventoryItems) {
-            if (i.getId() == item.getId()) {
-                i.setCount(i.getCount() + item.getCount());
-                return;
-            }
-        }
-        inventoryItems.add(item);
-    }
+		Item item = inventoryItems.get(selectedItem);
+		g.drawImage(item.getTexture(), invImageX, invImageY, invImageWidth, invImageHeight, null);
+		Text.drawString(g, Integer.toString(item.getCount()), invCountX, invCountY, true, Color.WHITE, Assets.INSTANCE.getFont("slkscr"));
+	}
 
-    // GETTERS SETTERS
+	// Inventory methods
 
-    public Handler getHandler() {
-        return handler;
-    }
+	public void addItem (Item item) {
+		for (Item i : inventoryItems) {
+			if (i.getId() == item.getId()) {
+				i.setCount(i.getCount() + item.getCount());
+				return;
+			}
+		}
+		inventoryItems.add(item);
+	}
 
-    public void setHandler(Handler handler) {
-        this.handler = handler;
-    }
+	// GETTERS SETTERS
 
-    public boolean isActive() {
-        return active;
-    }
+	public Handler getHandler () {
+		return handler;
+	}
+
+	public void setHandler (Handler handler) {
+		this.handler = handler;
+	}
 
 }

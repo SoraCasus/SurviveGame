@@ -31,7 +31,7 @@ public class World {
 		itemManager = new ItemManager(handler);
 		// Temporary entity code!
 		entityManager.addEntity(new Tree(handler, 3712, 1408));
-		entityManager.addEntity(new Rock(handler, 132, 450));
+		entityManager.addEntity(new Rock(handler, 3718, 1390));
 		entityManager.addEntity(new Rock(handler, 350, 300));
 		entityManager.addEntity(new Rock(handler, 400, 345));
 		entityManager.addEntity(new Tree(handler, 625, 325));

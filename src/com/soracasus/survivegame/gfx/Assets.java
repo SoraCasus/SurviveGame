@@ -41,6 +41,8 @@ public class Assets {
 
 		Font font28 = FontLoader.loadFont(new SCFile("fonts/slkscr.ttf"), 28);
 		fonts.put("slkscr", font28);
+		Font font14 = FontLoader.loadFont(new SCFile("fonts/slkscr.ttf"), 14);
+		fonts.put("slkscr14", font14);
 
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage(new SCFile("textures/sheet.png")));
 
@@ -104,6 +106,13 @@ public class Assets {
 
 		BufferedImage brownButton = ImageLoader.loadImage(new SCFile("textures/buttonLong_brown.png"));
 		textures.put("brownButton", brownButton);
+
+		BufferedImage rightHandBox = ImageLoader.loadImage(new SCFile("textures/RightHandBox.png"));
+		textures.put("rightHandBox", rightHandBox);
+
+		BufferedImage leftHandBox = ImageLoader.loadImage(new SCFile("textures/LeftHandBox.png"));
+		textures.put("leftHandBox", leftHandBox);
+
 
 		initNullTexture();
 

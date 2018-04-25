@@ -1,19 +1,18 @@
 package com.soracasus.survivegame.items;
 
+import com.soracasus.survivegame.Handler;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import com.soracasus.survivegame.Handler;
-import com.soracasus.survivegame.gfx.Assets;
-
-public class Item {
+public abstract class Item {
 	
 	// Handler
 	
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.INSTANCE.getTexture("wood"), "Wood", 0);
-	public static Item rockItem = new Item(Assets.INSTANCE.getTexture("rock"), "Rock", 1);
+	public static WoodItem woodItem = new WoodItem();
+	public static RockItem rockItem = new RockItem();
 
 	// Class
 
@@ -28,6 +27,7 @@ public class Item {
 	
 	protected int x, y, count;
 	protected boolean pickedUp = false;
+	protected boolean hasAction = false;
 	
 	public Item(BufferedImage texture, String name, int id){
 		this.texture = texture;
@@ -42,11 +42,23 @@ public class Item {
 	
 	public void tick(){
 		if(handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0f, 0f).intersects(bounds)){
-			pickedUp = true;
-			handler.getWorld().getEntityManager().getPlayer().getInventory().addItem(this);
+			pickedUp = handler.getWorld().getEntityManager().getPlayer().getInventory().pickUpItem(this);
 		}
 	}
-	
+
+	public abstract void onAction ();
+
+	@Override
+	public String toString () {
+		return "Item{" +
+				"name: " + name +
+				", id: " + id +
+				", x: " + x +
+				", y: " + y +
+				", count: " + count +
+				'}';
+	}
+
 	public void render(Graphics g){
 		if(handler == null)
 			return;
@@ -56,19 +68,12 @@ public class Item {
 	public void render(Graphics g, int x, int y){
 		g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
 	}
-	
-	public Item createNew(int count){
-		Item i = new Item(texture, name, id);
-		i.setPickedUp(true);
-		i.setCount(count);
-		return i;
-	}
-	
-	public Item createNew(int x, int y){
-		Item i = new Item(texture, name, id);
-		i.setPosition(x, y);
-		return i;
-	}
+
+	public abstract Item createNew (int count);
+
+	public abstract Item createNew (int x, int y);
+
+	public abstract Item createNew (int x, int y, int count);
 	
 	public void setPosition(int x, int y){
 		this.x = x;
@@ -137,6 +142,10 @@ public class Item {
 
 	public boolean isPickedUp() {
 		return pickedUp;
+	}
+
+	public boolean hasAction () {
+		return hasAction;
 	}
 
 }

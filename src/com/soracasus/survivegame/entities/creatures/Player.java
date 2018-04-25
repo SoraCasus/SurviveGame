@@ -4,7 +4,7 @@ import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.entities.Entity;
 import com.soracasus.survivegame.gfx.Animation;
 import com.soracasus.survivegame.gfx.Assets;
-import com.soracasus.survivegame.inventory.Inventory;
+import com.soracasus.survivegame.inventory.HandInventory;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Creature {
 
-	private static final int
+	public static final int
 			UP = 0,
 			DOWN = 1,
 			LEFT = 2,
@@ -24,7 +24,7 @@ public class Player extends Creature {
 	// Attack timer
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 	// Inventory
-	private Inventory inventory;
+	private HandInventory inventory;
 
 	private int currentDirection;
 
@@ -42,7 +42,7 @@ public class Player extends Creature {
 		animLeft = new Animation(250, Assets.INSTANCE.getAnimation("player_left"));
 		animRight = new Animation(250, Assets.INSTANCE.getAnimation("player_right"));
 
-		inventory = new Inventory(handler);
+		inventory = new HandInventory(handler);
 
 		this.currentDirection = DOWN;
 	}
@@ -58,8 +58,16 @@ public class Player extends Creature {
 		getInput();
 		move();
 		handler.getGameCamera().centerOnEntity(this);
-		// Attack
-		checkAttacks();
+		// Action
+		if (inventory.getSelectedSlot().getItem() != null) {
+			if (inventory.getSelectedSlot().getItem().hasAction()) {
+				inventory.getSelectedSlot().getItem().onAction();
+			} else {
+				checkAttacks();
+			}
+		} else {
+			checkAttacks();
+		}
 		// Inventory
 		inventory.tick();
 	}
@@ -197,12 +205,16 @@ public class Player extends Creature {
 		return null;
 	}
 
-	public Inventory getInventory () {
+	public HandInventory getInventory () {
 		return inventory;
 	}
 
-	public void setInventory (Inventory inventory) {
+	public void setInventory (HandInventory inventory) {
 		this.inventory = inventory;
 	}
 
+
+	public int getCurrentDirection () {
+		return currentDirection;
+	}
 }

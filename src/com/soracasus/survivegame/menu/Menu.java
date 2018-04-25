@@ -8,8 +8,17 @@ public abstract class Menu {
 
 	protected Handler handler;
 
+	protected boolean active;
+
+	protected Menu () {
+		this.active = false;
+	}
+
 	public abstract void tick ();
 
 	public abstract void render (Graphics g);
 
+	public boolean isActive () {
+		return active;
+	}
 }

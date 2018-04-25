@@ -1,11 +1,11 @@
 package com.soracasus.survivegame.entities.statics;
 
-import java.awt.Graphics;
-
 import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.gfx.Assets;
 import com.soracasus.survivegame.items.Item;
 import com.soracasus.survivegame.tiles.Tile;
+
+import java.awt.Graphics;
 
 public class Rock extends StaticEntity {
 

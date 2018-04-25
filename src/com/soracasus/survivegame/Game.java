@@ -1,16 +1,15 @@
 package com.soracasus.survivegame;
 
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-
 import com.soracasus.survivegame.display.Display;
-import com.soracasus.survivegame.gfx.Assets;
 import com.soracasus.survivegame.gfx.GameCamera;
 import com.soracasus.survivegame.input.KeyManager;
 import com.soracasus.survivegame.input.MouseManager;
 import com.soracasus.survivegame.states.GameState;
 import com.soracasus.survivegame.states.MenuState;
 import com.soracasus.survivegame.states.State;
+
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
@@ -114,7 +113,7 @@ public class Game implements Runnable {
 			}
 			
 			if(timer >= 1000000000){
-				System.out.println("Ticks and Frames: " + ticks);
+				// System.out.println("Ticks and Frames: " + ticks);
 				ticks = 0;
 				timer = 0;
 			}
