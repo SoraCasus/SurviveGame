@@ -24,8 +24,8 @@ public class MenuState extends State {
 
 		uiManager.addObject(new UITextButton(handler.getWidth() / 2, (handler.getHeight() / 2) + 50, 128, 64, Assets.INSTANCE.getTexture("brownButton"), "Load", Color.BLACK, Color.YELLOW, () -> {
 			handler.getMouseManager().setUIManager(null);
-			handler.getGame().gameState.loadFromFile();
 			setState(handler.getGame().gameState);
+			handler.getGame().gameState.loadFromFile();
 		}));
 	}
 

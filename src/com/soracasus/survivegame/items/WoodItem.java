@@ -1,5 +1,6 @@
 package com.soracasus.survivegame.items;
 
+import com.soracasus.survivegame.Handler;
 import com.soracasus.survivegame.entities.creatures.Player;
 import com.soracasus.survivegame.gfx.Assets;
 
@@ -9,8 +10,8 @@ public class WoodItem extends Item {
 
 	private static final int DISTANCE = 50;
 
-	public WoodItem () {
-		super(Assets.INSTANCE.getTexture("wood"), "Wood", 0);
+	public WoodItem (Handler handler) {
+		super(handler, Assets.INSTANCE.getTexture("wood"), "Wood", 0);
 		this.hasAction = true;
 	}
 
@@ -45,7 +46,7 @@ public class WoodItem extends Item {
 
 	@Override
 	public Item createNew (int x, int y) {
-		WoodItem i = new WoodItem();
+		WoodItem i = new WoodItem(handler);
 		i.setPosition(x, y);
 		return i;
 	}

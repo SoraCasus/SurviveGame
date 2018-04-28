@@ -24,6 +24,7 @@ public class GameState extends State {
 		System.out.println("Loading from file!");
 
 		handler.getWorld().getEntityManager().getPlayer().getInventory().loadFromFile(obj);
+		handler.getWorld().getItemManager().loadItems(obj);
 
 	}
 

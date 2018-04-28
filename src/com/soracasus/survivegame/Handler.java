@@ -6,7 +6,14 @@ import com.soracasus.survivegame.input.MouseManager;
 import com.soracasus.survivegame.worlds.World;
 
 public class Handler {
-	
+
+	public static Handler instance;
+
+	public static void initialize (Game game) {
+		instance = new Handler(game);
+	}
+
+
 	private Game game;
 	private World world;
 

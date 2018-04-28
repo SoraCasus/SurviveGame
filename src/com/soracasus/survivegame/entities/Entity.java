@@ -54,6 +54,10 @@ public abstract class Entity {
 		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 
+	public Rectangle getBounds () {
+		return this.bounds;
+	}
+
 	public float getCenterX () {
 		return x + (width / 2);
 	}

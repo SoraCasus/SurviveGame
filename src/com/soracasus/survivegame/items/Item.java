@@ -11,8 +11,8 @@ public abstract class Item {
 	// Handler
 
 	public static Item[] items = new Item[256];
-	public static WoodItem woodItem = new WoodItem();
-	public static RockItem rockItem = new RockItem();
+	public static WoodItem woodItem = new WoodItem(Handler.instance);
+	public static RockItem rockItem = new RockItem(Handler.instance);
 
 	// Class
 
@@ -29,10 +29,11 @@ public abstract class Item {
 	protected boolean pickedUp = false;
 	protected boolean hasAction = false;
 
-	public Item (BufferedImage texture, String name, int id) {
+	public Item (Handler handler, BufferedImage texture, String name, int id) {
 		this.texture = texture;
 		this.name = name;
 		this.id = id;
+		this.handler = handler;
 
 		bounds = new Rectangle(x, y, ITEMWIDTH, ITEMHEIGHT);
 
@@ -126,8 +127,9 @@ public abstract class Item {
 		return pickedUp;
 	}
 
-	public void setPickedUp (boolean pickedUp) {
+	public Item setPickedUp (boolean pickedUp) {
 		this.pickedUp = pickedUp;
+		return this;
 	}
 
 	public boolean hasAction () {

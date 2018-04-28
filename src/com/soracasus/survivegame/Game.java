@@ -56,8 +56,9 @@ public class Game implements Runnable {
 		display.getFrame().addMouseMotionListener(mouseManager);
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
-		
-		handler = new Handler(this);
+
+		Handler.initialize(this);
+		handler = Handler.instance;
 		gameCamera = new GameCamera(handler, 0, 0);
 		
 		gameState = new GameState(handler);
@@ -133,6 +134,7 @@ public class Game implements Runnable {
 	public void saveGame () {
 		JSONObject save = new JSONObject();
 		handler.getWorld().getEntityManager().getPlayer().getInventory().saveInventory(save);
+		handler.getWorld().getItemManager().saveItems(save);
 		try (FileWriter file = new FileWriter("res/save/save1.json")) {
 			file.write(save.toString());
 			System.out.println("Successfully Copied JSON Object to File...");

@@ -289,13 +289,13 @@ public class HandInventory extends Menu {
 		JSONObject left = obj.getJSONObject("leftHand");
 		System.out.println("Left ID: " + left.getInt("id"));
 		if (left.getInt("id") != -1) {
-			this.leftHand.setItem(Item.items[left.getInt("id")]);
+			this.leftHand.setItem(Item.items[left.getInt("id")].createNew(0, 0).setPickedUp(true));
 			this.leftHand.setCount(left.getInt("count"));
 		}
 
 		JSONObject right = obj.getJSONObject("rightHand");
 		if (right.getInt("id") != -1) {
-			this.rightHand.setItem(Item.items[right.getInt("id")]);
+			this.rightHand.setItem(Item.items[right.getInt("id")].createNew(0, 0).setPickedUp(true));
 			this.rightHand.setCount(right.getInt("count"));
 		}
 
