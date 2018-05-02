@@ -20,36 +20,36 @@ public class Game implements Runnable {
 	private Display display;
 	private int width, height;
 	public String title;
-	
+
 	private boolean running = false;
 	private Thread thread;
-	
+
 	private BufferStrategy bs;
 	private Graphics g;
-	
+
 	//States
 	public State gameState;
 	public State menuState;
-	
+
 	//Input
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
-	
+
 	//Camera
 	private GameCamera gameCamera;
-	
+
 	//Handler
 	private Handler handler;
-	
-	public Game(String title, int width, int height){
+
+	public Game (String title, int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
 	}
-	
-	private void init(){
+
+	private void init () {
 		display = new Display(title, width, height);
 		display.getFrame().addKeyListener(keyManager);
 		display.getFrame().addMouseListener(mouseManager);
@@ -60,25 +60,25 @@ public class Game implements Runnable {
 		Handler.initialize(this);
 		handler = Handler.instance;
 		gameCamera = new GameCamera(handler, 0, 0);
-		
+
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
 		State.setState(menuState);
 	}
-	
-	private void tick(){
+
+	private void tick () {
 		keyManager.tick();
-		
-		if(State.getState() != null)
+
+		if (State.getState() != null)
 			State.getState().tick();
 
 		if (keyManager.keyJustPressed(KeyEvent.VK_P))
 			saveGame();
 	}
-	
-	private void render(){
+
+	private void render () {
 		bs = display.getCanvas().getBufferStrategy();
-		if(bs == null){
+		if (bs == null) {
 			display.getCanvas().createBufferStrategy(3);
 			return;
 		}
@@ -86,19 +86,19 @@ public class Game implements Runnable {
 		//Clear Screen
 		g.clearRect(0, 0, width, height);
 		//Draw Here!
-		
-		if(State.getState() != null)
+
+		if (State.getState() != null)
 			State.getState().render(g);
-		
+
 		//End Drawing!
 		bs.show();
 		g.dispose();
 	}
-	
-	public void run(){
-		
+
+	public void run () {
+
 		init();
-		
+
 		int fps = 60;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
@@ -106,35 +106,36 @@ public class Game implements Runnable {
 		long lastTime = System.nanoTime();
 		long timer = 0;
 		int ticks = 0;
-		
-		while(running){
+
+		while (running) {
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerTick;
 			timer += now - lastTime;
 			lastTime = now;
-			
-			if(delta >= 1){
+
+			if (delta >= 1) {
 				tick();
 				render();
 				ticks++;
 				delta--;
 			}
-			
-			if(timer >= 1000000000){
+
+			if (timer >= 1000000000) {
 				// System.out.println("Ticks and Frames: " + ticks);
 				ticks = 0;
 				timer = 0;
 			}
 		}
-		
+
 		stop();
-		
+
 	}
 
 	public void saveGame () {
 		JSONObject save = new JSONObject();
 		handler.getWorld().getEntityManager().getPlayer().getInventory().saveInventory(save);
 		handler.getWorld().getItemManager().saveItems(save);
+		handler.getWorld().getEntityManager().saveEntities(save);
 		try (FileWriter file = new FileWriter("res/save/save1.json")) {
 			file.write(save.toString());
 			System.out.println("Successfully Copied JSON Object to File...");
@@ -143,37 +144,37 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
-	public KeyManager getKeyManager(){
+
+	public KeyManager getKeyManager () {
 		return keyManager;
 	}
-	
-	public MouseManager getMouseManager(){
+
+	public MouseManager getMouseManager () {
 		return mouseManager;
 	}
-	
-	public GameCamera getGameCamera(){
+
+	public GameCamera getGameCamera () {
 		return gameCamera;
 	}
-	
-	public int getWidth(){
+
+	public int getWidth () {
 		return width;
 	}
-	
-	public int getHeight(){
+
+	public int getHeight () {
 		return height;
 	}
-	
-	public synchronized void start(){
-		if(running)
+
+	public synchronized void start () {
+		if (running)
 			return;
 		running = true;
 		thread = new Thread(this);
 		thread.start();
 	}
-	
-	public synchronized void stop(){
-		if(!running)
+
+	public synchronized void stop () {
+		if (!running)
 			return;
 		running = false;
 		try {
@@ -182,7 +183,7 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
 
 

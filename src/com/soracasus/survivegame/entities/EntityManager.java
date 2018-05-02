@@ -15,19 +15,19 @@ public class EntityManager {
 	private Handler handler;
 	private Player player;
 	private ArrayList<Entity> entities;
-	private Comparator<Entity> renderSorter = new Comparator<Entity>() {
-		@Override
-		public int compare (Entity a, Entity b) {
-			if (a.getY() + a.getHeight() < b.getY() + b.getHeight())
-				return -1;
+	private Comparator<Entity> renderSorter = (a, b) -> {
+		if (a.getY() + a.getHeight() < b.getY() + b.getHeight())
+			return -1;
+		else if (a.getY() + a.getHeight() > b.getY() + b.getHeight())
 			return 1;
-		}
+		else
+			return 0;
 	};
 
 	public EntityManager (Handler handler, Player player) {
 		this.handler = handler;
 		this.player = player;
-		entities = new ArrayList<Entity>();
+		entities = new ArrayList<>();
 		addEntity(player);
 	}
 
@@ -49,24 +49,32 @@ public class EntityManager {
 		player.postRender(g);
 	}
 
+	public void loadEntities (JSONObject save) {
+		JSONArray arr = save.getJSONArray("entities");
+		entities.clear();
+		entities.add(player);
+		for (int i = 0; i < arr.length(); i++) {
+			JSONObject obj = arr.getJSONObject(i);
+			if (obj.getInt("id") == player.id) {
+				player.setX(obj.getInt("x"));
+				player.setY(obj.getInt("y"));
+				continue;
+			}
+			Entity e = Entity.entities[obj.getInt("id")].createNew();
+			e.setX(obj.getInt("x"));
+			e.setY(obj.getInt("y"));
+			this.addEntity(e);
+		}
+	}
+
 	public void saveEntities (JSONObject obj) {
 		JSONArray arr = new JSONArray();
 		for (Entity e : entities) {
 			JSONObject ent = new JSONObject();
-
-			ent.put("x", e.getCenterX());
-			ent.put("y", e.getCenterY());
-			ent.put("width", e.getWidth());
-			ent.put("height", e.getHeight());
-			ent.put("health", e.getHealth());
-			ent.put("active", e.isActive());
-			JSONObject bounds = new JSONObject();
-			bounds.put("x", e.getBounds().x);
-			bounds.put("y", e.getBounds().y);
-			bounds.put("width", e.getBounds().width);
-			bounds.put("height", e.getBounds().height);
-			ent.put("bounds", bounds);
+			e.save(ent);
+			arr.put(ent);
 		}
+		obj.put("entities", arr);
 	}
 
 	public void addEntity (Entity e) {

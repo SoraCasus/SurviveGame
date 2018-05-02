@@ -5,6 +5,7 @@ import com.soracasus.survivegame.entities.Entity;
 import com.soracasus.survivegame.gfx.Animation;
 import com.soracasus.survivegame.gfx.Assets;
 import com.soracasus.survivegame.inventory.HandInventory;
+import com.soracasus.survivegame.json.JSONObject;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -29,7 +30,7 @@ public class Player extends Creature {
 	private int currentDirection;
 
 	public Player (Handler handler, float x, float y) {
-		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
+		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT, 2);
 
 		bounds.x = 22;
 		bounds.y = 44;
@@ -135,6 +136,12 @@ public class Player extends Creature {
 		System.out.println("You lose");
 	}
 
+	@Override
+	public Entity createNew () {
+		System.err.println("Cannot create new Player!");
+		return null;
+	}
+
 	private void getInput () {
 		xMove = 0;
 		yMove = 0;
@@ -216,5 +223,10 @@ public class Player extends Creature {
 
 	public int getCurrentDirection () {
 		return currentDirection;
+	}
+
+	@Override
+	public void save (JSONObject obj) {
+
 	}
 }

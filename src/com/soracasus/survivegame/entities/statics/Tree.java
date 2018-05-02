@@ -1,8 +1,10 @@
 package com.soracasus.survivegame.entities.statics;
 
 import com.soracasus.survivegame.Handler;
+import com.soracasus.survivegame.entities.Entity;
 import com.soracasus.survivegame.gfx.Assets;
 import com.soracasus.survivegame.items.Item;
+import com.soracasus.survivegame.json.JSONObject;
 import com.soracasus.survivegame.tiles.Tile;
 
 import java.awt.Graphics;
@@ -13,7 +15,7 @@ public class Tree extends StaticEntity {
 	private Random random;
 
 	public Tree (Handler handler, float x, float y) {
-		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT * 2);
+		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT * 2, 0);
 
 		random = new Random();
 
@@ -35,8 +37,17 @@ public class Tree extends StaticEntity {
 	}
 
 	@Override
+	public Entity createNew () {
+		return new Tree(handler, 0, 0);
+	}
+
+	@Override
 	public void render (Graphics g) {
 		g.drawImage(Assets.INSTANCE.getTexture("tree"), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 	}
 
+	@Override
+	public void save (JSONObject obj) {
+
+	}
 }

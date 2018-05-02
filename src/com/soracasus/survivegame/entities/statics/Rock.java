@@ -1,8 +1,10 @@
 package com.soracasus.survivegame.entities.statics;
 
 import com.soracasus.survivegame.Handler;
+import com.soracasus.survivegame.entities.Entity;
 import com.soracasus.survivegame.gfx.Assets;
 import com.soracasus.survivegame.items.Item;
+import com.soracasus.survivegame.json.JSONObject;
 import com.soracasus.survivegame.tiles.Tile;
 
 import java.awt.Graphics;
@@ -10,7 +12,7 @@ import java.awt.Graphics;
 public class Rock extends StaticEntity {
 
 	public Rock(Handler handler, float x, float y) {
-		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
+		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, 1);
 		
 		bounds.x = 3;
 		bounds.y = (int) (height / 2f);
@@ -29,8 +31,17 @@ public class Rock extends StaticEntity {
 	}
 
 	@Override
+	public Entity createNew () {
+		return new Rock(handler, 0, 0);
+	}
+
+	@Override
 	public void render(Graphics g) {
 		g.drawImage(Assets.INSTANCE.getTexture("rock"), (int) (x - handler.getGameCamera().getxOffset()), (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 	}
 
+	@Override
+	public void save (JSONObject obj) {
+
+	}
 }

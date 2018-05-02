@@ -57,15 +57,16 @@ public class ItemManager {
 
 	public void loadItems (JSONObject file) {
 
-		JSONArray items = file.getJSONArray("items");
-		for (int i = 0; i < items.length(); i++) {
-			JSONObject item = items.getJSONObject(i);
-			Item it = Item.items[item.getInt("id")];
+		JSONArray arr = file.getJSONArray("items");
+		for (int i = 0; i < arr.length(); i++) {
+			JSONObject item = arr.getJSONObject(i);
+			Item it = Item.items[item.getInt("id")].createNew(0, 0);
 			it.setX(item.getInt("x"));
 			it.setY(item.getInt("y"));
 			it.setPickedUp(item.getBoolean("pickedUp"));
 			it.setName(item.getString("name"));
-			this.items.add(it);
+
+			items.add(it);
 		}
 
 	}

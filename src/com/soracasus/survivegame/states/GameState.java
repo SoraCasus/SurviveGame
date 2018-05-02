@@ -9,10 +9,10 @@ import com.soracasus.survivegame.worlds.World;
 import java.awt.Graphics;
 
 public class GameState extends State {
-	
+
 	private World world;
-	
-	public GameState(Handler handler){
+
+	public GameState (Handler handler) {
 		super(handler);
 		world = new World(handler, new SCFile("worlds/world.json"));
 		handler.setWorld(world);
@@ -24,17 +24,17 @@ public class GameState extends State {
 		System.out.println("Loading from file!");
 
 		handler.getWorld().getEntityManager().getPlayer().getInventory().loadFromFile(obj);
-		handler.getWorld().getItemManager().loadItems(obj);
+		handler.getWorld().getEntityManager().loadEntities(obj);
 
 	}
 
 	@Override
-	public void tick() {
+	public void tick () {
 		world.tick();
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render (Graphics g) {
 		world.render(g);
 	}
 
