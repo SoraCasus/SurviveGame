@@ -6,29 +6,22 @@ import com.soracasus.survivegame.json.JSONArray;
 import com.soracasus.survivegame.json.JSONObject;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
 public class EntityManager {
 
 	private Handler handler;
 	private Player player;
 	private ArrayList<Entity> entities;
-	private Comparator<Entity> renderSorter = (a, b) -> {
-		if (a.getY() + a.getHeight() < b.getY() + b.getHeight())
-			return -1;
-		else if (a.getY() + a.getHeight() > b.getY() + b.getHeight())
-			return 1;
-		else
-			return 0;
-	};
+	private List<Entity> entityQueue;
+	private Comparator<Entity> renderSorter = (a, b) -> Float.compare(a.getY() + a.getHeight(), b.getY() + b.getHeight());
 
 	public EntityManager (Handler handler, Player player) {
 		this.handler = handler;
 		this.player = player;
-		entities = new ArrayList<>();
-		addEntity(player);
+		this.entities = new ArrayList<>();
+		this.entityQueue = new ArrayList<>();
+		entities.add(player);
 	}
 
 	public void tick () {
@@ -40,6 +33,8 @@ public class EntityManager {
 				it.remove();
 		}
 		entities.sort(renderSorter);
+        entities.addAll(entityQueue);
+        entityQueue.clear();
 	}
 
 	public void render (Graphics g) {
@@ -78,7 +73,8 @@ public class EntityManager {
 	}
 
 	public void addEntity (Entity e) {
-		entities.add(e);
+		if(e instanceof Player) return;
+	    entityQueue.add(e);
 	}
 
 	//GETTERS SETTERS

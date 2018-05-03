@@ -1,0 +1,296 @@
+{
+  "leftHand": {
+    "count": 2,
+    "id": 2
+  },
+  "entities": [
+    {},
+    {
+      "x": 3700,
+      "width": 64,
+      "y": 1300,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 4100,
+      "width": 64,
+      "y": 1300,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3500,
+      "width": 64,
+      "y": 1300,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3900,
+      "width": 64,
+      "y": 1300,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 4300,
+      "width": 64,
+      "y": 1300,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3500,
+      "width": 64,
+      "y": 1500,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3900,
+      "width": 64,
+      "y": 1500,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 4300,
+      "width": 64,
+      "y": 1500,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3700,
+      "width": 64,
+      "y": 1500,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 4100,
+      "width": 64,
+      "y": 1500,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3700,
+      "width": 64,
+      "y": 1700,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 4100,
+      "width": 64,
+      "y": 1700,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3500,
+      "width": 64,
+      "y": 1700,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3900,
+      "width": 64,
+      "y": 1700,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 4300,
+      "width": 64,
+      "y": 1700,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3500,
+      "width": 64,
+      "y": 1900,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3900,
+      "width": 64,
+      "y": 1900,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 4300,
+      "width": 64,
+      "y": 1900,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3700,
+      "width": 64,
+      "y": 1900,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 4100,
+      "width": 64,
+      "y": 1900,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3700,
+      "width": 64,
+      "y": 2100,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 4100,
+      "width": 64,
+      "y": 2100,
+      "health": 3,
+      "active": true,
+      "id": 1,
+      "height": 64
+    },
+    {
+      "x": 3500,
+      "width": 64,
+      "y": 2100,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 3900,
+      "width": 64,
+      "y": 2100,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    },
+    {
+      "x": 4300,
+      "width": 64,
+      "y": 2100,
+      "health": 3,
+      "active": true,
+      "id": 0,
+      "height": 128
+    }
+  ],
+  "rightHand": {
+    "count": 2,
+    "id": 3
+  },
+  "inventory": [
+    {
+      "count": 0,
+      "index": 0,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 1,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 2,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 3,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 4,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 5,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 6,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 7,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 8,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 9,
+      "id": -1
+    },
+    {
+      "count": 0,
+      "index": 10,
+      "id": -1
+    }
+  ],
+  "items": []
+}
